@@ -45,10 +45,14 @@ if archivos_subidos:
             total_registros = len(df_maestro)
             st.metric("Total de Tareas Reportadas", total_registros)
         
-        with col2:
-            num_trabajadores = df_maestro["Trabajador"].nunique()
-            st.metric("Trabajadores Activos", num_trabajadores)
-            
+with col2:
+            # Verificamos si la columna existe antes de contar
+            if "Trabajador" in df_maestro.columns:
+                num_trabajadores = df_maestro["Trabajador"].nunique()
+                st.metric("Trabajadores Activos", num_trabajadores)
+            else:
+                st.metric("Trabajadores Activos", "N/A")
+                st.warning("⚠️ No se encontró la columna 'Trabajador' en los archivos.")
         with col3:
             # Cálculo de progreso medio global
             valor_estado = {
